@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Oct 13 23:32:50 2019
+
+@author: mandroid6
+"""
+
+import numpy as np
+
+class GridWorld():
+    def __init__(self, grid):
+        
+        gridWorld = np.prod(grid)
+        self.gridWorld = gridWorld
+        
+        self.prob_error = 0.2
+        
+        
+    def setProbError(self, prob_error):
+        self.prob_error = prob_error
+        
+        
+    def getPossibleActions(self, state):
+        if state == self.gridWorld.terminalState:
+            return ()
+        
+        x, y = state
+        if type(self.gridWorld[x][y]) == int:
+            return ('exit',)
+        return ('north','west','south','east')
+    
+    def getStates(self):
+        states =[self.gridWorld.terminalState]
+        
+        for x in range(self.gridWorld.width):
+            for y in range(self.gridWorld.height):
+                
+                pass
+            
+            
+            
+    def getTransitionStatesAndProbs(self, state, action):
+        if action not in self.getPossibleActions(state):
+            raise "Illegal action!"
+            
+            
+        if self.isTerminal(state):
+            return []
+        
+        x, y = state
+        
+        if type(self.gridWorld[x][y]) == int or type(self.grid[x][y])==float:
+            termState = self.gridWorld.terminalState
+            return [(termState, 1.0)]
+        
+        
+        succesors = []
+        
+        northState = (self.__isAllowed(y+1, x) and (x, y+1)) or state
+        westState = (self.__isAllowed(y,x-1) and (x-1,y)) or state
+        southState = (self.__isAllowed(y-1,x) and (x,y-1)) or state
+        eastState = (self.__isAllowed(y,x+1) and (x+1,y)) or state
+        
+        
